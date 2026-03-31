@@ -66,6 +66,34 @@
     .sent-msg { display: none; text-align: center; padding: 2rem; color: #888; font-size: 13px; letter-spacing: 0.06em; font-family: Arial, sans-serif; }
     .error-msg { display: none; color: #a00; font-size: 13px; margin-top: 1rem; font-family: Arial, sans-serif; text-align: center; }
 
+    /* Dark mode */
+    body.dark { background: #111; color: #e8e8e8; }
+    body.dark nav.scrolled { background: rgba(17,17,17,0.6); border-bottom-color: rgba(255,255,255,0.1); }
+    body.dark .hero p { color: #666; }
+    body.dark .grid-item .caption { background: rgba(17,17,17,0.92); color: #aaa; }
+    body.dark .about-wrap p { color: #aaa; }
+    body.dark .about-wrap .gear { border-top-color: #2a2a2a; }
+    body.dark .about-wrap .gear h3 { color: #666; }
+    body.dark .gear-tag { background: #222; color: #aaa; }
+    body.dark .contact-wrap p { color: #666; }
+    body.dark .contact-wrap label { color: #666; }
+    body.dark .contact-wrap input, body.dark .contact-wrap textarea { background: #1a1a1a; border-color: #333; color: #e8e8e8; }
+    body.dark .contact-wrap input:focus, body.dark .contact-wrap textarea:focus { border-color: #666; background: #222; }
+    body.dark .contact-wrap button { background: #e8e8e8; color: #111; }
+    body.dark .contact-wrap button:hover { background: #ccc; }
+    body.dark footer { border-top-color: #2a2a2a; }
+    body.dark footer .footer-name, body.dark footer .footer-links a { color: #555; }
+    body.dark footer .footer-links a:hover { color: #e8e8e8; }
+    body.dark nav .links a { color: #666; }
+    body.dark nav .links a:hover, body.dark nav .links a.active { color: #e8e8e8; }
+    body.dark nav .logo { color: #e8e8e8; }
+
+    /* Dark mode toggle button */
+    .dark-toggle { background: none; border: none; cursor: pointer; padding: 4px; color: #888; font-size: 16px; line-height: 1; display: flex; align-items: center; }
+    .dark-toggle:hover { color: #1a1a1a; }
+    body.dark .dark-toggle { color: #666; }
+    body.dark .dark-toggle:hover { color: #e8e8e8; }
+
     /* Footer */
     footer { margin-top: auto; border-top: 0.5px solid #ddd; padding: 1.5rem 3rem; display: flex; justify-content: space-between; align-items: center; }
     footer .footer-name { font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; color: #bbb; font-family: Arial, sans-serif; }
@@ -89,6 +117,7 @@
 <nav>
   <div class="logo">Misho Popov</div>
   <div class="links">
+    <button class="dark-toggle" id="dark-toggle" title="Toggle dark mode">&#9680;</button>
     <a href="#" id="nav-gallery" onclick="show('gallery', this); return false;">Work</a>
     <a href="#" id="nav-about" onclick="show('about', this); return false;">About</a>
     <a href="#" id="nav-contact" onclick="show('contact', this); return false;">Contact</a>
@@ -252,6 +281,14 @@
     if (e.key === 'Escape') closeLightbox();
     if (e.key === 'ArrowLeft') { lbIndex = (lbIndex - 1 + photos.length) % photos.length; updateLightbox(); }
     if (e.key === 'ArrowRight') { lbIndex = (lbIndex + 1) % photos.length; updateLightbox(); }
+  });
+
+  // Dark mode toggle
+  var darkToggle = document.getElementById('dark-toggle');
+  if (localStorage.getItem('dark') === '1') document.body.classList.add('dark');
+  darkToggle.addEventListener('click', function() {
+    document.body.classList.toggle('dark');
+    localStorage.setItem('dark', document.body.classList.contains('dark') ? '1' : '0');
   });
 
   // Transparent nav on scroll
