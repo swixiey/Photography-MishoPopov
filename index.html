@@ -7,24 +7,43 @@
   <link rel="icon" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAzMiAzMiI+CiAgPHJlY3Qgd2lkdGg9IjMyIiBoZWlnaHQ9IjMyIiBmaWxsPSIjMWExYTFhIi8+CiAgPHRleHQgeD0iMTYiIHk9IjIyIiBmb250LWZhbWlseT0iQXJpYWwsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTMiIGZvbnQtd2VpZ2h0PSI3MDAiIGZpbGw9IiNmZmZmZmYiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGxldHRlci1zcGFjaW5nPSIwLjUiPk1QPC90ZXh0Pgo8L3N2Zz4=" type="image/svg+xml">
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
-    body { font-family: Georgia, serif; background: #fff; color: #1a1a1a; }
+    body { font-family: Georgia, serif; background: #fff; color: #1a1a1a; display: flex; flex-direction: column; min-height: 100vh; }
     nav { display: flex; justify-content: space-between; align-items: center; padding: 2rem 3rem; border-bottom: 0.5px solid #ddd; }
     nav .logo { font-size: 15px; letter-spacing: 0.12em; text-transform: uppercase; font-weight: 500; font-family: Arial, sans-serif; }
     nav .links { display: flex; gap: 2rem; }
     nav .links a { font-size: 13px; letter-spacing: 0.08em; text-transform: uppercase; color: #888; text-decoration: none; cursor: pointer; font-family: Arial, sans-serif; }
     nav .links a:hover, nav .links a.active { color: #1a1a1a; }
-    section { display: none; padding: 3rem; max-width: 1100px; margin: 0 auto; }
+
+    /* Page transitions */
+    section { display: none; padding: 3rem; max-width: 1100px; margin: 0 auto; opacity: 0; transition: opacity 0.35s ease; }
     section.active { display: block; }
+    section.visible { opacity: 1; }
+
     .hero { text-align: center; padding: 4rem 3rem 2rem; }
     .hero h1 { font-size: 32px; font-weight: 400; letter-spacing: 0.04em; margin-bottom: 0.75rem; }
     .hero p { font-size: 14px; color: #888; letter-spacing: 0.1em; text-transform: uppercase; font-family: Arial, sans-serif; }
+
+    /* Grid — 3 col desktop, 1 col mobile */
     .grid { columns: 3; gap: 12px; padding-top: 1.5rem; }
-    .grid-item { break-inside: avoid; margin-bottom: 12px; position: relative; overflow: hidden; }
+    .grid-item { break-inside: avoid; margin-bottom: 12px; position: relative; overflow: hidden; cursor: pointer; }
     .grid-item img { width: 100%; display: block; filter: grayscale(20%) contrast(1.05); transition: filter 0.3s; }
     .grid-item:hover img { filter: grayscale(0%) contrast(1); }
     .grid-item .caption { position: absolute; bottom: 0; left: 0; right: 0; background: rgba(255,255,255,0.92); padding: 8px 12px; font-size: 11px; letter-spacing: 0.08em; color: #555; text-transform: uppercase; font-family: Arial, sans-serif; transform: translateY(100%); transition: transform 0.3s; }
     .grid-item:hover .caption { transform: translateY(0); }
     .placeholder-img { width: 100%; background: #f0ede8; display: flex; align-items: center; justify-content: center; color: #bbb; font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; font-family: Arial, sans-serif; }
+
+    /* Lightbox */
+    .lightbox { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.92); z-index: 1000; align-items: center; justify-content: center; }
+    .lightbox.open { display: flex; }
+    .lightbox img { max-width: 90vw; max-height: 88vh; object-fit: contain; display: block; }
+    .lightbox-caption { position: fixed; bottom: 1.5rem; left: 0; right: 0; text-align: center; color: rgba(255,255,255,0.6); font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; font-family: Arial, sans-serif; }
+    .lightbox-close { position: fixed; top: 1.25rem; right: 1.5rem; color: rgba(255,255,255,0.7); font-size: 28px; cursor: pointer; line-height: 1; font-family: Arial, sans-serif; }
+    .lightbox-close:hover { color: #fff; }
+    .lightbox-prev, .lightbox-next { position: fixed; top: 50%; transform: translateY(-50%); color: rgba(255,255,255,0.5); font-size: 32px; cursor: pointer; padding: 1rem; font-family: Arial, sans-serif; user-select: none; }
+    .lightbox-prev:hover, .lightbox-next:hover { color: #fff; }
+    .lightbox-prev { left: 1rem; }
+    .lightbox-next { right: 1rem; }
+
     .about-wrap { max-width: 640px; margin: 2rem auto; }
     .about-wrap h2 { font-size: 22px; font-weight: 400; margin-bottom: 1.5rem; }
     .about-wrap p { font-size: 15px; line-height: 1.85; color: #444; margin-bottom: 1.25rem; font-family: Arial, sans-serif; }
@@ -32,6 +51,7 @@
     .about-wrap .gear h3 { font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase; color: #888; margin-bottom: 1rem; font-weight: 500; font-family: Arial, sans-serif; }
     .gear-list { display: flex; flex-wrap: wrap; gap: 8px; }
     .gear-tag { background: #f5f3f0; font-size: 12px; padding: 5px 12px; border-radius: 20px; color: #555; letter-spacing: 0.04em; font-family: Arial, sans-serif; }
+
     .contact-wrap { max-width: 480px; margin: 2rem auto; }
     .contact-wrap h2 { font-size: 22px; font-weight: 400; margin-bottom: 0.75rem; }
     .contact-wrap p { font-size: 14px; color: #888; margin-bottom: 2rem; line-height: 1.7; font-family: Arial, sans-serif; }
@@ -44,6 +64,23 @@
     .contact-wrap button:disabled { background: #888; cursor: default; }
     .sent-msg { display: none; text-align: center; padding: 2rem; color: #888; font-size: 13px; letter-spacing: 0.06em; font-family: Arial, sans-serif; }
     .error-msg { display: none; color: #a00; font-size: 13px; margin-top: 1rem; font-family: Arial, sans-serif; text-align: center; }
+
+    /* Footer */
+    footer { margin-top: auto; border-top: 0.5px solid #ddd; padding: 1.5rem 3rem; display: flex; justify-content: space-between; align-items: center; }
+    footer .footer-name { font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; color: #bbb; font-family: Arial, sans-serif; }
+    footer .footer-links { display: flex; gap: 1.5rem; }
+    footer .footer-links a { font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; color: #bbb; text-decoration: none; font-family: Arial, sans-serif; }
+    footer .footer-links a:hover { color: #1a1a1a; }
+
+    /* Mobile */
+    @media (max-width: 640px) {
+      nav { padding: 1.25rem 1.25rem; }
+      .hero { padding: 2.5rem 1.25rem 1rem; }
+      .hero h1 { font-size: 24px; }
+      section { padding: 1.5rem 1.25rem; }
+      .grid { columns: 1; }
+      footer { padding: 1.25rem; flex-direction: column; gap: 0.75rem; text-align: center; }
+    }
   </style>
 </head>
 <body>
@@ -89,14 +126,6 @@
     <h2>Get in touch</h2>
     <p>Whether you want to talk film, collaborate, or just say hello — I'd love to hear from you.</p>
     <div id="contact-form">
-      <!--
-        FORMSPREE SETUP
-        ---------------
-        1. Sign up at formspree.io
-        2. Create a new form — they'll give you an ID like "xaabbccdd"
-        3. Replace xvzvaylv below with that ID
-        4. Save the file — the contact form will now email you directly
-      -->
       <form id="fs-form" action="https://formspree.io/f/xvzvaylv" method="POST">
         <label for="fs-name">Name</label>
         <input id="fs-name" type="text" name="name" placeholder="Your name" required />
@@ -112,20 +141,24 @@
   </div>
 </section>
 
-<script>
-  /*
-   * HOW TO ADD YOUR PHOTOS
-   * ----------------------
-   * 1. Put your image files in the same folder as this HTML file
-   * 2. Replace the src values below with your actual filenames
-   * 3. Update each label to your caption (location, film stock, etc.)
-   *
-   * Example:
-   *   { src: "portland-street.jpg", label: "Portland, 2024 · Kodak Portra 400" }
-   *
-   * To add more photos, copy one of the lines and paste it below the last one.
-   */
+<!-- Lightbox -->
+<div class="lightbox" id="lightbox">
+  <span class="lightbox-close" id="lb-close">&times;</span>
+  <span class="lightbox-prev" id="lb-prev">&#8592;</span>
+  <img id="lb-img" src="" alt="" />
+  <span class="lightbox-next" id="lb-next">&#8594;</span>
+  <div class="lightbox-caption" id="lb-caption"></div>
+</div>
 
+<footer>
+  <span class="footer-name">Misho Popov &copy; 2025</span>
+  <div class="footer-links">
+    <!-- Replace YOUR_INSTAGRAM_HANDLE with your actual Instagram username -->
+    <a href="https://instagram.com/moshifilm" target="_blank">Instagram</a>
+  </div>
+</footer>
+
+<script>
   var photos = [
     { src: "photos/000051110002.jpg", label: "Solitude" },
     { src: "photos/000051110032.jpg", label: "Flag of Unity" },
@@ -143,28 +176,81 @@
     { src: "photos/ultron_scans_07.jpg", label: "Start of an End" },
   ];
 
-  var tones = ["#e8e4de","#d9d5ce","#ede9e3","#e2ddd7","#ece7e0","#d5d1ca","#e6e1db","#dedad3","#eae6df","#e0dbd4","#ebe6df","#d7d3cc","#e4e0d9","#eceae5"];
-  var ratios = [1.5, 1.0, 0.75, 1.5, 1.2, 0.85, 1.0, 1.4, 0.9, 1.1, 0.8, 1.3, 1.0, 0.75];
   var grid = document.getElementById('photo-grid');
 
   photos.forEach(function(p, i) {
     var item = document.createElement('div');
     item.className = 'grid-item';
-    if (p.src) {
-      item.innerHTML = '<img src="' + p.src + '" alt="' + p.label + '" /><div class="caption">' + p.label + '</div>';
-    } else {
-      var h = Math.round(180 / ratios[i]);
-      item.innerHTML = '<div class="placeholder-img" style="height:' + h + 'px;background:' + tones[i] + ';font-size:10px;">[ photo ' + (i+1) + ' ]</div><div class="caption">' + p.label + '</div>';
-    }
+    item.innerHTML = '<img src="' + p.src + '" alt="' + p.label + '" loading="lazy" /><div class="caption">' + p.label + '</div>';
+    item.addEventListener('click', function() { openLightbox(i); });
     grid.appendChild(item);
   });
 
+  // Section transitions
   function show(id, el) {
-    document.querySelectorAll('section').forEach(function(s) { s.classList.remove('active'); });
+    var current = document.querySelector('section.active');
+    if (current) {
+      current.classList.remove('visible');
+      setTimeout(function() {
+        current.classList.remove('active');
+        var next = document.getElementById(id);
+        next.classList.add('active');
+        requestAnimationFrame(function() { next.classList.add('visible'); });
+      }, 200);
+    } else {
+      var next = document.getElementById(id);
+      next.classList.add('active');
+      requestAnimationFrame(function() { next.classList.add('visible'); });
+    }
     document.querySelectorAll('nav .links a').forEach(function(a) { a.classList.remove('active'); });
-    document.getElementById(id).classList.add('active');
     if (el) el.classList.add('active');
   }
+
+  // Make the initial active section visible
+  requestAnimationFrame(function() {
+    document.querySelector('section.active').classList.add('visible');
+  });
+
+  // Lightbox
+  var lbIndex = 0;
+  var lightbox = document.getElementById('lightbox');
+
+  function openLightbox(i) {
+    lbIndex = i;
+    updateLightbox();
+    lightbox.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeLightbox() {
+    lightbox.classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  function updateLightbox() {
+    document.getElementById('lb-img').src = photos[lbIndex].src;
+    document.getElementById('lb-img').alt = photos[lbIndex].label;
+    document.getElementById('lb-caption').textContent = photos[lbIndex].label;
+  }
+
+  document.getElementById('lb-close').addEventListener('click', closeLightbox);
+  document.getElementById('lb-prev').addEventListener('click', function() {
+    lbIndex = (lbIndex - 1 + photos.length) % photos.length;
+    updateLightbox();
+  });
+  document.getElementById('lb-next').addEventListener('click', function() {
+    lbIndex = (lbIndex + 1) % photos.length;
+    updateLightbox();
+  });
+  lightbox.addEventListener('click', function(e) {
+    if (e.target === lightbox) closeLightbox();
+  });
+  document.addEventListener('keydown', function(e) {
+    if (!lightbox.classList.contains('open')) return;
+    if (e.key === 'Escape') closeLightbox();
+    if (e.key === 'ArrowLeft') { lbIndex = (lbIndex - 1 + photos.length) % photos.length; updateLightbox(); }
+    if (e.key === 'ArrowRight') { lbIndex = (lbIndex + 1) % photos.length; updateLightbox(); }
+  });
 
   // Formspree form submission
   var form = document.getElementById('fs-form');
