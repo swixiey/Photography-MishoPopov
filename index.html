@@ -45,9 +45,10 @@
     .lightbox-prev { left: 1rem; }
     .lightbox-next { right: 1rem; }
 
-    .about-wrap { max-width: 640px; margin: 2rem auto; }
-    .about-top { display: flex; align-items: center; gap: 2rem; margin-bottom: 1.75rem; }
-    .about-headshot { width: 110px; height: 110px; border-radius: 50%; object-fit: cover; flex-shrink: 0; filter: grayscale(20%); }
+    .about-wrap { max-width: 820px; margin: 2rem auto; }
+    .about-layout { display: flex; gap: 2.5rem; align-items: flex-start; }
+    .about-headshot { width: 200px; height: 260px; border-radius: 4px; object-fit: cover; flex-shrink: 0; filter: grayscale(20%); }
+    .about-body { flex: 1; }
     .about-wrap h2 { font-size: 22px; font-weight: 400; margin-bottom: 1.5rem; }
     .about-wrap p { font-size: 15px; line-height: 1.85; color: #444; margin-bottom: 1.25rem; font-family: Arial, sans-serif; }
     .about-wrap .gear { margin-top: 2rem; border-top: 0.5px solid #e0e0e0; padding-top: 1.5rem; }
@@ -110,7 +111,8 @@
       .hero h1 { font-size: 24px; }
       section { padding: 1.5rem 1.25rem; }
       .grid { columns: 1; }
-      .about-top { flex-direction: column; align-items: flex-start; }
+      .about-layout { flex-direction: column; }
+      .about-headshot { width: 120px; height: 150px; }
       footer { padding: 1.25rem; flex-direction: column; gap: 0.75rem; text-align: center; }
     }
   </style>
@@ -138,21 +140,23 @@
 
 <section id="about">
   <div class="about-wrap">
-    <div class="about-top">
+    <div class="about-layout">
       <img src="photos/headshot.png" alt="Misho Popov" class="about-headshot" />
-      <h2>About me</h2>
-    </div>
-    <p>I'm a Seattle-based film photographer drawn to quiet, in-between moments — the soft light before a room fills up, the texture of a wall that's seen decades pass.</p>
-    <p>Film slows me down in the best way. Every frame costs something, which means every frame earns its place. I shoot mostly on the streets and in people's homes, always with available light.</p>
-    <div class="gear">
-      <h3>Gear I shoot with</h3>
-      <div class="gear-list">
-        <span class="gear-tag">Leica M5 - Color Skopar 35mm f2.5</span>
-        <span class="gear-tag">Mamiya 645</span>
-        <span class="gear-tag">Mamiya C33</span>
-        <span class="gear-tag">Canon F1</span>
-        <span class="gear-tag">Yashica Mat 124G</span>
-        <span class="gear-tag">Voigtlander Bessa R</span>
+      <div class="about-body">
+        <h2>About me</h2>
+        <p>I'm a Seattle-based film photographer drawn to quiet, in-between moments — the soft light before a room fills up, the texture of a wall that's seen decades pass.</p>
+        <p>Film slows me down in the best way. Every frame costs something, which means every frame earns its place. I shoot mostly on the streets and in people's homes, always with available light.</p>
+        <div class="gear">
+          <h3>Gear I shoot with</h3>
+          <div class="gear-list">
+            <span class="gear-tag">Leica M5 - Color Skopar 35mm f2.5</span>
+            <span class="gear-tag">Mamiya 645</span>
+            <span class="gear-tag">Mamiya C33</span>
+            <span class="gear-tag">Canon F1</span>
+            <span class="gear-tag">Yashica Mat 124G</span>
+            <span class="gear-tag">Voigtlander Bessa R</span>
+          </div>
+        </div>
       </div>
     </div>
   </div>
