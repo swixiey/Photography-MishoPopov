@@ -46,7 +46,8 @@
     .lightbox-next { right: 1rem; }
 
     .about-wrap { max-width: 640px; margin: 2rem auto; }
-    .about-headshot { width: 120px; height: 120px; border-radius: 50%; object-fit: cover; display: block; margin-bottom: 1.75rem; filter: grayscale(20%); }
+    .about-top { display: flex; align-items: center; gap: 2rem; margin-bottom: 1.75rem; }
+    .about-headshot { width: 110px; height: 110px; border-radius: 50%; object-fit: cover; flex-shrink: 0; filter: grayscale(20%); }
     .about-wrap h2 { font-size: 22px; font-weight: 400; margin-bottom: 1.5rem; }
     .about-wrap p { font-size: 15px; line-height: 1.85; color: #444; margin-bottom: 1.25rem; font-family: Arial, sans-serif; }
     .about-wrap .gear { margin-top: 2rem; border-top: 0.5px solid #e0e0e0; padding-top: 1.5rem; }
@@ -109,6 +110,7 @@
       .hero h1 { font-size: 24px; }
       section { padding: 1.5rem 1.25rem; }
       .grid { columns: 1; }
+      .about-top { flex-direction: column; align-items: flex-start; }
       footer { padding: 1.25rem; flex-direction: column; gap: 0.75rem; text-align: center; }
     }
   </style>
@@ -136,8 +138,10 @@
 
 <section id="about">
   <div class="about-wrap">
-    <img src="photos/headshot.png" alt="Misho Popov" class="about-headshot" />
-    <h2>About me</h2>
+    <div class="about-top">
+      <img src="photos/headshot.png" alt="Misho Popov" class="about-headshot" />
+      <h2>About me</h2>
+    </div>
     <p>I'm a Seattle-based film photographer drawn to quiet, in-between moments — the soft light before a room fills up, the texture of a wall that's seen decades pass.</p>
     <p>Film slows me down in the best way. Every frame costs something, which means every frame earns its place. I shoot mostly on the streets and in people's homes, always with available light.</p>
     <div class="gear">
